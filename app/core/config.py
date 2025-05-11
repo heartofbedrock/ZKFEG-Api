@@ -1,7 +1,7 @@
 import os
-from pydantic_settings import BaseSettings
 
-class Settings(BaseSettings):
-    STORAGE_DIR: str = os.getenv('STORAGE_DIR', './data')
+class Settings:
+    # Where all session data lives
+    STORAGE_DIR: str = os.getenv("STORAGE_DIR", "./zk_sessions")
 
 settings = Settings()
