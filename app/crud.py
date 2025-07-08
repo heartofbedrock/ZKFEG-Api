@@ -1,5 +1,6 @@
 import os
 import json
+import shutil
 from .core.config import settings
 from .local import LocalZKFileExchange
 
@@ -7,6 +8,15 @@ _engine = LocalZKFileExchange(settings.STORAGE_DIR)
 
 def create_session(filename: str, metadata: dict) -> str:
     return _engine.create_session(filename, metadata)
+
+def list_sessions() -> list[str]:
+    if not os.path.isdir(settings.STORAGE_DIR):
+        return []
+    return [
+        name
+        for name in os.listdir(settings.STORAGE_DIR)
+        if os.path.isdir(os.path.join(settings.STORAGE_DIR, name))
+    ]
 
 def upload_chunk(session_id: str, index: int, ciphertext: bytes, nonce: bytes, tag: bytes):
     path = os.path.join(settings.STORAGE_DIR, session_id)
@@ -30,3 +40,9 @@ def get_metadata(session_id: str) -> dict:
 def get_chunk(session_id: str, index: int) -> bytes:
     path = os.path.join(settings.STORAGE_DIR, session_id, f"chunk_{index:05d}.bin")
     return open(path, "rb").read()
+
+def delete_session(session_id: str):
+    path = os.path.join(settings.STORAGE_DIR, session_id)
+    if not os.path.isdir(path):
+        raise FileNotFoundError
+    shutil.rmtree(path)

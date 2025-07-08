@@ -4,6 +4,11 @@ from .. import crud, models
 
 router = APIRouter(prefix="/v1/sessions", tags=["sessions"])
 
+@router.get("/", response_model=models.SessionListResponse)
+def list_sessions():
+    sessions = crud.list_sessions()
+    return {"sessions": sessions}
+
 @router.post("/", response_model=models.SessionCreateResponse)
 def create_session(req: models.SessionCreateRequest):
     sid = crud.create_session(req.filename, req.metadata)
@@ -48,3 +53,11 @@ def get_chunk(session_id: str, index: int):
     except FileNotFoundError:
         raise HTTPException(status_code=404, detail="Chunk not found")
     return StreamingResponse(iter([chunk]), media_type="application/octet-stream")
+
+@router.delete("/{session_id}", response_model=models.SessionDeleteResponse)
+def delete_session(session_id: str):
+    try:
+        crud.delete_session(session_id)
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Session not found")
+    return {"success": True}
