@@ -22,3 +22,9 @@ class MetadataResponse(BaseModel):
     merkle_root: str
     zk_proof: str
     chunk_count: int
+
+class SessionListResponse(BaseModel):
+    sessions: list[str]
+
+class SessionDeleteResponse(BaseModel):
+    success: bool
