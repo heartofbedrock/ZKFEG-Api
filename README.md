@@ -26,10 +26,6 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
-# Run locally
-uvicorn app.main:app --reload
-```
-
 ## Usage
 After starting the server you can interact with the API using any HTTP client.
 
