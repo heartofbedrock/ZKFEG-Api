@@ -1,12 +1,13 @@
-# Zero‑Knowledge File Exchange Gateway (ZK‑FEG)
+# Zero-Knowledge File Exchange Gateway (ZK-FEG)
 
-A FastAPI service providing secure file exchange with zero‑knowledge integrity proofs.
+A FastAPI service providing secure file exchange with zero-knowledge integrity proofs.
 
 ## Features
-- Create file‑exchange sessions
+- Create file-exchange sessions
 - Upload encrypted file chunks
-- Submit Merkle‑root + ZK proof
+- Submit Merkle-root + ZK proof
 - Download metadata and encrypted chunks
+- List and delete sessions
 - Health check endpoint
 
 ## Requirements
@@ -20,9 +21,47 @@ git clone <repo_url>
 cd zk_feg_api_repo
 
 # Create virtual env & install
-env/bin/python -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
 # Run locally
-env/bin/python -m uvicorn app.main:app --reload
+uvicorn app.main:app --reload
+```
+
+## Usage
+After starting the server you can interact with the API using any HTTP client.
+
+### 1. Create a session
+```bash
+curl -X POST http://localhost:8000/v1/sessions/ \
+  -H "Content-Type: application/json" \
+  -d '{"filename": "example.txt", "metadata": {}}'
+```
+The response contains a `session_id` used for subsequent requests.
+
+### 2. Upload encrypted file chunks
+```bash
+curl -X PUT http://localhost:8000/v1/sessions/<SESSION_ID>/chunks \
+  -F index=0 \
+  -F ciphertext=@chunk0.bin \
+  -F nonce=@nonce0.bin \
+  -F tag=@tag0.bin
+```
+Repeat for each chunk of your encrypted file.
+
+### 3. Submit the Merkle proof
+```bash
+curl -X POST http://localhost:8000/v1/sessions/<SESSION_ID>/proof \
+  -H "Content-Type: application/json" \
+  -d '{"merkle_root": "<root>", "zk_proof": "<proof>"}'
+```
+
+### 4. Share and retrieve files
+Share the `session_id` with another user. They can download the metadata
+and encrypted chunks using:
+```bash
+curl http://localhost:8000/v1/sessions/<SESSION_ID>/metadata
+curl http://localhost:8000/v1/sessions/<SESSION_ID>/chunks/0 > chunk0.bin
+```
+Combine all chunks to reconstruct the file using your decryption process.
