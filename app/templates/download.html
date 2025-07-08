@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Download Files</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f9f9fb; color: #333; text-align: center; padding-top: 40px; }
+        .box { background: white; width: 500px; margin: auto; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-radius: 8px; }
+        ul { list-style: none; padding: 0; }
+        li { margin: 8px 0; }
+        a { color: #0066cc; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>Download Files</h1>
+        <p><a href="/download/{{ session_id }}?nonce={{ nonce }}">Download all as zip</a></p>
+        <h2>Chunks</h2>
+        <ul>
+        {% for c in chunks %}
+            <li><a href="/v1/sessions/{{ session_id }}/chunks/{{ c }}">Chunk {{ c }}</a></li>
+        {% endfor %}
+        </ul>
+        <p><a href="/v1/sessions/{{ session_id }}/metadata">Metadata</a></p>
+    </div>
+</body>
+</html>

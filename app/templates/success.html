@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Upload Success</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f9f9fb; color: #333; text-align: center; padding-top: 40px; }
+        .box { background: white; width: 500px; margin: auto; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-radius: 8px; }
+        code { background: #eee; padding: 2px 4px; border-radius: 4px; }
+        a { color: #0066cc; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>File Uploaded!</h1>
+        <p>Share this link and nonce with your recipient:</p>
+        <p><strong>Link:</strong> <a href="{{ share_url }}">{{ request.url.hostname }}{{ share_url }}</a></p>
+        <p><strong>Nonce:</strong> <code>{{ nonce }}</code></p>
+        <p>Keep the nonce secret. Your recipient will need it to download the files.</p>
+        <a href="/">Upload another file</a>
+    </div>
+</body>
+</html>
