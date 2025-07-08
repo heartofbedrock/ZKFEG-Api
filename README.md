@@ -1,12 +1,13 @@
-# Zero‑Knowledge File Exchange Gateway (ZK‑FEG)
+# Zero-Knowledge File Exchange Gateway (ZK-FEG)
 
-A FastAPI service providing secure file exchange with zero‑knowledge integrity proofs.
+A FastAPI service providing secure file exchange with zero-knowledge integrity proofs.
 
 ## Features
-- Create file‑exchange sessions
+- Create file-exchange sessions
 - Upload encrypted file chunks
-- Submit Merkle‑root + ZK proof
+- Submit Merkle-root + ZK proof
 - Download metadata and encrypted chunks
+- List and delete sessions
 - Health check endpoint
 
 ## Requirements
@@ -20,9 +21,10 @@ git clone <repo_url>
 cd zk_feg_api_repo
 
 # Create virtual env & install
-env/bin/python -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
 # Run locally
-env/bin/python -m uvicorn app.main:app --reload
+uvicorn app.main:app --reload
+```
