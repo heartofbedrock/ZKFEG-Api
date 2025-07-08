@@ -8,6 +8,7 @@ import zipfile
 import uvicorn
 from fastapi import FastAPI, UploadFile, File, Form, Request
 from fastapi.responses import HTMLResponse, StreamingResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from app.api.sessions import router as sessions_router
 from . import crud
@@ -16,6 +17,7 @@ from .core.config import settings
 
 app = FastAPI(title="Zero-Knowledge File Exchange Gateway")
 templates = Jinja2Templates(directory="app/templates")
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
 app.include_router(sessions_router)
 
 @app.get("/health")

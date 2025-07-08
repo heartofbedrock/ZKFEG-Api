@@ -25,7 +25,6 @@ cd zk_feg_api_repo
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-```
 
 ## Usage
 After starting the server you can interact with the API using any HTTP client.

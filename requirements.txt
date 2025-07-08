@@ -1,5 +1,8 @@
 fastapi
 uvicorn[standard]
-cryptographypython-multipart
+cryptography
+python-multipart
+cryptography
+python-multipart
 jinja2
 httpx
